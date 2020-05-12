@@ -93,7 +93,6 @@ document.querySelector("#save").addEventListener("click", () => {
     message: msg.innerText
   };
   console.log(data);
-  document.querySelector("#overlay").style.display = "flex";
 
   // new HttpRequest instance
   var xmlhttp = new XMLHttpRequest();
@@ -103,6 +102,7 @@ document.querySelector("#save").addEventListener("click", () => {
   // setup callback function
   xmlhttp.onloadend = function(e) {
     console.log(xmlhttp.responseText);
+    document.querySelector("#overlay").style.display = "flex";
     // immediately switch to display view
     //window.location = "https://cerulean-denim-meerkat.glitch.me/display.html";
   };

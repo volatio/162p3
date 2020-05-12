@@ -10,7 +10,7 @@ const fs = require('fs');
 const sqlite3 = require('sqlite3');
 
 // connecting to database
-let db = new sqlite3.Database(__dirname+'/public/postcards.db', sqlite3.OPEN_READWRITE|sqlite3.OPEN_CREAT, (err) => {
+let db = new sqlite3.Database(__dirname+'/public/postcards.db', sqlite3.OPEN_READWRITE|sqlite3.OPEN_CREATE, (err) => {
   if (err) {
     console.log('postcards.db does not exist');
     return console.error(err.message);
