@@ -9,7 +9,8 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const sqlite3 = require('sqlite3');
 
-let db = new sqlite3.Database(__dirname+'/public/postcards.db', (err) => {
+// connecting to database
+let db = new sqlite3.Database(__dirname+'/public/postcards.db', sqlite3.OPEN_READWRITE|sqlite3.OPEN_CREAT, (err) => {
   if (err) {
     console.log('postcards.db does not exist');
     return console.error(err.message);
@@ -46,6 +47,18 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/public/creator.html');
 });
 
+app.get("/showPostcard?", function (request, response) {
+  console.log(request.query);
+  let ssql = 'SELECT DISTINCT Id id, Image image, Color color, Font font, Message message FROM postcards WHERE Id = ?';
+  db.get(ssql, [request.query.id], (err, row) => {
+    if (err) {
+      return console.error(err.message);
+    }
+    console.log(row);
+    response.send(row);
+  });
+})
+
 // Next, the the two POST AJAX queries
 
 // Handle a post request to upload an image. 
@@ -67,9 +80,8 @@ app.use(bodyParser.json());
 app.post('/saveDisplay', function (req, res) {
   db.run('CREATE TABLE IF NOT EXISTS postcards (id, image, color, font, message)');
   console.log(req.body);
-  const insertid = randString(10);
   db.run('INSERT INTO postcards(id, image, color, font, message) VALUES (?, ?, ?, ?, ?)',
-         [insertid,
+         [req.body.id,
           req.body.image,
           req.body.color,
           req.body.font,
@@ -81,6 +93,7 @@ app.post('/saveDisplay', function (req, res) {
       }
     console.log('updated server');
   });
+  
   // write the JSON into postcardData.json
   fs.writeFile(__dirname + '/public/postcardData.json', JSON.stringify(req.body), (err) => {
     if(err) {
@@ -100,12 +113,3 @@ app.post('/saveDisplay', function (req, res) {
 var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
-
-function randString(len) {
-  let out = '';
-  // base 36 is how you decode binary to ASCII text
-  // not sure why the example code start at position 2 to get sub-string
-  // instead of getting max possible length I am doing 1 character at a time
-  while (out.length < len) out += Math.random().toString(36).substr(2, 1);
-  return out;
-}

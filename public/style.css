@@ -33,6 +33,40 @@ body {
   min-height: 100vh;
 }
 
+#overlay {
+  position: fixed;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background-color: rgba(0,0,0,0.5);
+}
+
+#xbutton {
+  position: absolute;
+  display: block;
+  top: 16px;
+  right: 40px;
+  font-size: 80px;
+  color: white;
+  transform: rotate(45deg);
+}
+
+#showlink {
+  display: flex;
+  width: 80%;
+  height: 45%;
+  margin: auto;
+  top: auto;
+  bottom: auto;
+  background-color: white;
+  border-radius: 15px;
+}
+
 header {
   font-family: "Dancing Script", cursive;
   margin: 1em;
