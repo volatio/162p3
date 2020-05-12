@@ -82,9 +82,7 @@ colorBoxes.forEach((b, i) => {
 document.querySelector("#save").addEventListener("click", () => {
   let msg = document.querySelector("#message");
   let img = document.querySelector("#cardImg");
-  let merh = document.getElementById("mhead");
   let insertId = randString(10);
-  merh.innerHTML = insertId;
   let data = {
     id: insertId,
     image: img.src,
@@ -103,6 +101,8 @@ document.querySelector("#save").addEventListener("click", () => {
   xmlhttp.onloadend = function(e) {
     console.log(xmlhttp.responseText);
     document.querySelector("#overlay").style.display = "flex";
+    let clink = document.querySelector("#clink");
+    clink.innerHTML = ("https://cerulean-denim-meerkat.glitch.me/display.html?id=" + insertId).link("https://cerulean-denim-meerkat.glitch.me/display.html?id=" + insertId);
     // immediately switch to display view
     //window.location = "https://cerulean-denim-meerkat.glitch.me/display.html";
   };

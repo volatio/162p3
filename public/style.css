@@ -58,6 +58,7 @@ body {
 
 #showlink {
   display: flex;
+  flex-direction: column;
   width: 80%;
   height: 45%;
   margin: auto;
@@ -65,6 +66,19 @@ body {
   bottom: auto;
   background-color: white;
   border-radius: 15px;
+  text-align: center;
+}
+
+tsh {
+  font-size: 30px;
+  padding-top: 60px;
+  font-weight: bold;
+}
+
+#clink {
+  font-size: 20px;
+  display: block;
+  margin: auto;
 }
 
 header {
