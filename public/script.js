@@ -7,6 +7,7 @@ const cross = "\u2756";
 // querySelector returns the first element that matches the
 // given CSS selector; in this case, the first span with id "fonts"
 let currentFontIcon = document.querySelector("#fonts span");
+let filen = "";
 
 // add event listeners
 document.querySelectorAll("#fonts input").forEach(i => {
@@ -121,13 +122,14 @@ document.querySelector("#imgUpload").addEventListener("change", () => {
   // store it in a FormData object
   const formData = new FormData();
   formData.append("newImage", selectedFile, selectedFile.name);
-
+  filen = selectedFile.name;
   let button = document.querySelector(".btn");
 
   // build an HTTP request data structure
   const xhr = new XMLHttpRequest();
   xhr.open("POST", "/upload", true);
   xhr.onloadend = function(e) {
+    sendGetRequest(filen);
     // Get the server's response to the upload
     console.log(xhr.responseText);
     let newImage = document.querySelector("#cardImg");
@@ -153,4 +155,28 @@ function randString(len) {
       .toString(36)
       .substr(2, 1);
   return out;
+}
+
+function showMsg(elmtId, returnedText, otherOne) {
+        let msg = document.getElementById(elmtId);
+        msg.innerHTML = msg.textContent.trim()+returnedText;
+}
+
+// sends an AJAX request asking the server 
+function sendGetRequest(filename) {
+  let xhr = new XMLHttpRequest;
+  // it's a GET request, it goes to URL /seneUploadToAPI
+  xhr.open("POST","sendUploadToAPI");
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  // Add an event listener for when the HTTP response is loaded
+  xhr.addEventListener("load", function() {
+      if (xhr.status == 200) {  // success
+        showMsg("mhead",xhr.responseText);
+      } else { // failure
+        showMsg("mhead",xhr.responseText);
+      }
+  });
+  let fn = {"name": filename};
+  // Actually send request to server
+  xhr.send(JSON.stringify(fn));
 }
