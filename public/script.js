@@ -83,7 +83,7 @@ colorBoxes.forEach((b, i) => {
 document.querySelector("#save").addEventListener("click", () => {
   let msg = document.querySelector("#message");
   let img = document.querySelector("#cardImg");
-  let insertId = randString(10);
+  let insertId = randString(22);
   let ind = img.src.lastIndexOf('/');
   let data = {
     id: insertId,
