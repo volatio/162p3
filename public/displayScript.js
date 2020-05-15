@@ -17,7 +17,7 @@ xhr.onloadend = function(e) {
   // configure the postcard
   let postcardImage = document.getElementById("cardImg");
   postcardImage.style.display = 'block';
-  postcardImage.src = data.image;
+  postcardImage.src = "http://ecs162.org:3000/images/kaiyoshida/" + data.image;
   let postcardMessage = document.getElementById("message");
   //postcardMessage.textContent = data.message;
   // textContent throws away newlines; so use innerText instead
