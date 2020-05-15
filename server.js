@@ -105,6 +105,11 @@ app.post('/saveDisplay', function (req, res) {
   
 });
 
+// delete files
+app.post("/delimage", function(request, response){
+  fs.unlink(__dirname + "/images/" + request.body.name);
+});
+
 // fire off the file upload if we get this "GET"
 app.post("/sendUploadToAPI", function(request, response){
   console.log(request.body);
