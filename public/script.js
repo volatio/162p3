@@ -83,7 +83,7 @@ colorBoxes.forEach((b, i) => {
 document.querySelector("#save").addEventListener("click", () => {
   let msg = document.querySelector("#message");
   let img = document.querySelector("#cardImg");
-  let insertId = randString(10);
+  let insertId = randString(22);
   let ind = img.src.lastIndexOf('/');
   let data = {
     id: insertId,
@@ -133,12 +133,6 @@ document.querySelector("#imgUpload").addEventListener("change", () => {
     sendGetRequest(filen);
     // Get the server's response to the upload
     console.log(xhr.responseText);
-    let newImage = document.querySelector("#cardImg");
-    newImage.src =
-      "https://cerulean-denim-meerkat.glitch.me/images/" + selectedFile.name;
-    newImage.style.display = "block";
-    document.querySelector(".image").classList.remove("upload");
-    button.textContent = "Replace Image";
   };
 
   button.textContent = "Uploading...";
@@ -171,13 +165,24 @@ function sendGetRequest(filename) {
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   // Add an event listener for when the HTTP response is loaded
   xhr.addEventListener("load", function() {
-      if (xhr.status == 200) {  // success
-        showMsg("mhead",xhr.responseText);
-      } else { // failure
-        showMsg("mhead",xhr.responseText);
-      }
+    let newImage = document.querySelector("#cardImg");
+    let button = document.querySelector(".btn");
+    newImage.src = "http://ecs162.org:3000/images/kaiyoshida/" + filename;
+    newImage.style.display = "block";
+    document.querySelector(".image").classList.remove("upload");
+    button.textContent = "Replace Image";
+    delimage(filename);
   });
   let fn = {"name": filename};
   // Actually send request to server
+  xhr.send(JSON.stringify(fn));
+}
+
+function delimage(filename) {
+  let xhr = new XMLHttpRequest;
+  xhr.open("POST", "delimage");
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  let fn = {"name": filename};
   xhr.send(JSON.stringify(fn));
 }
